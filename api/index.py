@@ -8,6 +8,7 @@ CORS = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS, HEAD",
     "Access-Control-Allow-Headers": "*",
+    "Access-Control-Expose-Headers": "*",
 }
 
 
