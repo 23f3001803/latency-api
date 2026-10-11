@@ -6,7 +6,7 @@ DATA = [["apac", 151.96, 99.29], ["apac", 117.64, 99.427], ["apac", 120.03, 97.7
 
 CORS = {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS, HEAD",
     "Access-Control-Allow-Headers": "*",
 }
 
@@ -51,7 +51,20 @@ class handler(BaseHTTPRequestHandler):
         self.wfile.write(payload)
 
     def do_OPTIONS(self):
-        self._send(204, {})
+        # Preflight: headers only, empty body
+        self.send_response(200)
+        for k, v in CORS.items():
+            self.send_header(k, v)
+        self.send_header("Access-Control-Max-Age", "86400")
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
+    def do_HEAD(self):
+        self.send_response(200)
+        for k, v in CORS.items():
+            self.send_header(k, v)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
 
     def do_POST(self):
         try:
